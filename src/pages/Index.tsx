@@ -48,7 +48,7 @@ const Index = () => {
             </div>
 
             <div className="flex flex-col items-center gap-3">
-              <CTAButton size="xl" className="w-full sm:w-auto animate-pulse-gentle">
+              <CTAButton size="xl" className="w-full sm:w-auto">
                 Get Instant Access
                 <ArrowRight className="ml-2 w-5 h-5" />
               </CTAButton>
