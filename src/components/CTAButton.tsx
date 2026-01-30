@@ -24,7 +24,7 @@ const CTAButton = forwardRef<HTMLButtonElement, CTAButtonProps>(
         }
 
         if (data?.url) {
-          window.open(data.url, "_blank", "noopener,noreferrer");
+          window.location.href = data.url;
         }
       } catch (err) {
         console.error("Error:", err);
