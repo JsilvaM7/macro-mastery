@@ -1,8 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
-const CHECKOUT_URL = "https://gumroad.com/checkout?_gl=1*1r4fl13*_ga*NzAwMjUzOTguMTc2OTcyNTE4MA..*_ga_6LJN6D94N6*czE3Njk3MjgwNzkkbzIkZzEkdDE3Njk3MzA4MDckajYwJGwwJGgw";
-
 interface CTAButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline";
   size?: "default" | "lg" | "xl";
@@ -10,16 +8,12 @@ interface CTAButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const CTAButton = forwardRef<HTMLButtonElement, CTAButtonProps>(
   ({ className, variant = "primary", size = "default", children, type = "button", onClick, ...props }, ref) => {
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      window.open(CHECKOUT_URL, "_blank", "noopener,noreferrer");
-      onClick?.(e);
-    };
 
     return (
       <button
         ref={ref}
         type={type}
-        onClick={handleClick}
+        onClick={onClick}
         className={cn(
           "inline-flex items-center justify-center font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
           {
