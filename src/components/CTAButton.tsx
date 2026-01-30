@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
-import { ButtonHTMLAttributes, forwardRef } from "react";
+import { ButtonHTMLAttributes, forwardRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface CTAButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline";
@@ -7,13 +9,38 @@ interface CTAButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const CTAButton = forwardRef<HTMLButtonElement, CTAButtonProps>(
-  ({ className, variant = "primary", size = "default", children, type = "button", onClick, ...props }, ref) => {
+  ({ className, variant = "primary", size = "default", children, type = "button", onClick, disabled, ...props }, ref) => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase.functions.invoke("create-payment");
+        
+        if (error) {
+          console.error("Payment error:", error);
+          toast.error("Erro ao processar pagamento. Tente novamente.");
+          return;
+        }
+
+        if (data?.url) {
+          window.open(data.url, "_blank", "noopener,noreferrer");
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        toast.error("Erro ao conectar com o servidor.");
+      } finally {
+        setIsLoading(false);
+      }
+      onClick?.(e);
+    };
 
     return (
       <button
         ref={ref}
         type={type}
-        onClick={onClick}
+        onClick={handleClick}
+        disabled={disabled || isLoading}
         className={cn(
           "inline-flex items-center justify-center font-semibold transition-all duration-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
           {
@@ -29,11 +56,12 @@ const CTAButton = forwardRef<HTMLButtonElement, CTAButtonProps>(
             "px-8 py-4 text-lg": size === "lg",
             "px-10 py-5 text-xl": size === "xl",
           },
+          "disabled:opacity-50 disabled:cursor-not-allowed",
           className
         )}
         {...props}
       >
-        {children}
+        {isLoading ? "Processando..." : children}
       </button>
     );
   }
