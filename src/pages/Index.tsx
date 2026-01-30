@@ -18,6 +18,7 @@ import StickyMobileCTA from "@/components/StickyMobileCTA";
 import TestimonialCard from "@/components/TestimonialCard";
 import FeatureCheck from "@/components/FeatureCheck";
 import BenefitCard from "@/components/BenefitCard";
+import ProductExplanation from "@/components/ProductExplanation";
 
 const Index = () => {
   return (
@@ -180,6 +181,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Product Explanation Section */}
+      <ProductExplanation />
 
       {/* Benefits Section */}
       <section className="py-16 md:py-20">
