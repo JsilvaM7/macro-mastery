@@ -1,26 +1,672 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classic Bedtime Stories Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* <!-- Chosen Palette: Vintage Storybook (Cream, Brown, Soft Accents) --> */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin: 0;
+            padding: 20px 0 80px 0;
+            align-items: center;
+        }
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+        /* FULLSCREEN BUTTON */
+        #fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #5d4037;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-family: 'Lato', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+        #fullscreen-btn:hover {
+            background: #3e2723;
+            transform: translateY(-2px);
+        }
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+        .slide-container {
+            background-color: #fffaf1;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            font-family: 'Lato', sans-serif;
+            height: 800px;
+            overflow: hidden;
+            position: relative;
+            width: 1200px;
+            margin-bottom: 20px;
+        }
+
+        /* BACKGROUND DECORATION */
+        .slide-container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(139, 69, 19, 0.08) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .story-header {
+            background: #5d4037;
+            color: #d7ccc8;
+            padding: 12px 60px;
+            font-family: 'Merriweather', serif;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #4e342e;
+        }
+
+        h2.slide-title {
+            color: #5d4037;
+            font-family: 'Merriweather', serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin: 0;
+            padding: 40px 60px 20px 60px;
+            z-index: 2;
+        }
+
+        .content-area {
+            display: flex;
+            flex-grow: 1;
+            padding: 0 60px 40px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            width: 100%;
+            align-items: center;
+        }
+
+        p {
+            color: #4e342e;
+            font-size: 24px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .image-container {
+            background-color: #efebe9;
+            border-radius: 20px;
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05), 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #d7ccc8;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .loader {
+            border: 5px solid #d7ccc8;
+            border-top: 5px solid #8d6e63;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .page-number {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+            color: #8d6e63;
+            font-size: 18px;
+        }
+
+        @media print {
+            body { padding: 0; background: none; }
+            #fullscreen-btn { display: none; }
+            .slide-container { box-shadow: none; border: 1px solid #ddd; margin: 0; page-break-after: always; }
+        }
+
+        @media (max-width: 1250px) {
+            .slide-container { width: 95%; height: auto; min-height: 700px; }
+            .two-column { grid-template-columns: 1fr; gap: 30px; }
+            .image-container { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 
+    Application Structure Plan:
+    This SPA is designed as a vertical collection of "slides" representing an interactive e-book.
+    Each story is divided into 3 distinct sections (Beginning, Middle, End) to facilitate digestion.
+    Navigation is handled by scrolling, which mimics turning pages in a continuous flow.
+    A fixed Fullscreen button allows for an immersive reading experience, especially on tablets or shared screens.
+    AI image generation (Imagen 4.0) provides a unique, high-quality visual for every page, enhancing engagement.
+-->
+
+<!-- 
+    Visualization & Content Choices:
+    - Text: Large, high-readability serif fonts (Merriweather) for a book feel.
+    - Images: AI-generated watercolor style (via Imagen 4.0) to maintain a classic, calming aesthetic.
+    - Interaction: Fullscreen toggle for focus; automatic AI image loading with progress indicators.
+    - NO SVG/Mermaid used. Graphics are handled via Canvas (AI images) and CSS for the UI.
+-->
+
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<button id="fullscreen-btn" onclick="toggleFullscreen()">
+    <span id="btn-icon">⛶</span> <span id="btn-text">Tela Cheia</span>
+</button>
+
+<div id="stories-wrapper">
+    <!-- STORY 1: ARTHUR THE RABBIT -->
+    <div class="slide-container">
+        <div class="story-header">Arthur the Rabbit</div>
+        <h2 class="slide-title">The Big Warning</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Once upon a time, four little Rabbits named Daisy, Bella, Oliver, and Arthur lived under a big fir tree. Their mother warned them: "Go to the fields, but never enter Mr. McGregor's garden!"</p>
+                <p>While the others gathered berries, naughty Arthur ran straight to the garden and squeezed under the gate to eat radishes!</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l1"></div><img id="i1"></div>
+        </div></div>
+        <div class="page-number">Arthur - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Arthur the Rabbit</div>
+        <h2 class="slide-title">Escape from the Garden</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l2"></div><img id="i2"></div>
+            <div>
+                <p>Suddenly, Mr. McGregor spotted him! "Stop, thief!" Arthur ran so fast he lost his shoes. He got caught in a net, but escaped by leaving his blue jacket behind.</p>
+                <p>He hid in a wet watering can and narrowly escaped through a tiny window, trembling with fear.</p>
+            </div>
+        </div></div>
+        <div class="page-number">Arthur - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Arthur the Rabbit</div>
+        <h2 class="slide-title">Home Sweet Home</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Arthur finally found the gate and ran all the way home. He was so tired he flopped on the sand. His mother tucked him in with chamomile tea while his siblings ate a delicious dinner.</p>
+                <p>He was safe at last, learning that listening to Mother is always best.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l3"></div><img id="i3"></div>
+        </div></div>
+        <div class="page-number">Arthur - 3</div>
+    </div>
+
+    <!-- STORY 2: THREE LITTLE PIGS -->
+    <div class="slide-container">
+        <div class="story-header">The Three Little Pigs</div>
+        <h2 class="slide-title">The Three Houses</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Three little pigs went out to seek their fortune. One built a house of straw, another of sticks, and the third of strong bricks. But a Big Bad Wolf was watching!</p>
+                <p>"Little pig, let me in!" the wolf cried as he blew the straw and stick houses away!</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l4"></div><img id="i4"></div>
+        </div></div>
+        <div class="page-number">Three Pigs - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">The Three Little Pigs</div>
+        <h2 class="slide-title">The Wolf's Huff and Puff</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l5"></div><img id="i5"></div>
+            <div>
+                <p>The wolf arrived at the brick house. He huffed and puffed with all his might, but the strong house didn't move! The wolf got angry and decided to climb the chimney.</p>
+            </div>
+        </div></div>
+        <div class="page-number">Three Pigs - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">The Three Little Pigs</div>
+        <h2 class="slide-title">The Clever Plan</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>The pigs placed a pot of boiling water in the fireplace. The wolf fell right in, gave a loud howl, and ran away forever!</p>
+                <p>The three brothers lived together safely in the brick house from that day on.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l6"></div><img id="i6"></div>
+        </div></div>
+        <div class="page-number">Three Pigs - 3</div>
+    </div>
+
+    <!-- STORY 3: BEAUTY AND THE BEAST -->
+    <div class="slide-container">
+        <div class="story-header">Beauty and the Beast</div>
+        <h2 class="slide-title">The Enchanted Castle</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Belle lived in a grand castle with a Beast who seemed scary. But as they spent time together reading and talking, Belle saw the kindness in his heart.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l7"></div><img id="i7"></div>
+        </div></div>
+        <div class="page-number">Beauty - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Beauty and the Beast</div>
+        <h2 class="slide-title">A Difficult Choice</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l8"></div><img id="i8"></div>
+            <div>
+                <p>Belle missed her father and the Beast let her go home. "Return within a week," he asked. But Belle was delayed, and she worried for her friend.</p>
+            </div>
+        </div></div>
+        <div class="page-number">Beauty - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Beauty and the Beast</div>
+        <h2 class="slide-title">True Love's Bloom</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Belle returned and found the Beast dying of sadness. "I love you!" she cried. Suddenly, he transformed into a handsome Prince. Love had broken the spell!</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l9"></div><img id="i9"></div>
+        </div></div>
+        <div class="page-number">Beauty - 3</div>
+    </div>
+
+    <!-- STORY 4: PETER PAN -->
+    <div class="slide-container">
+        <div class="story-header">Peter Pan</div>
+        <h2 class="slide-title">To Neverland!</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Peter Pan and Tinker Bell flew Wendy and her brothers to Neverland. "Second star to the right and straight on till morning!" they cheered.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l10"></div><img id="i10"></div>
+        </div></div>
+        <div class="page-number">Peter Pan - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Peter Pan</div>
+        <h2 class="slide-title">Captain Hook's Ship</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l11"></div><img id="i11"></div>
+            <div>
+                <p>They met the Lost Boys, but the evil Captain Hook was waiting! After a great battle on the pirate ship, Hook was chased away by the ticking crocodile.</p>
+            </div>
+        </div></div>
+        <div class="page-number">Peter Pan - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Peter Pan</div>
+        <h2 class="slide-title">The Never-Ending Adventure</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Wendy went home, but she never forgot the boy who wouldn't grow up. Peter Pan flew back to Neverland, where the magic never ends.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l12"></div><img id="i12"></div>
+        </div></div>
+        <div class="page-number">Peter Pan - 3</div>
+    </div>
+
+    <!-- STORY 5: PUSS IN BOOTS -->
+    <div class="slide-container">
+        <div class="story-header">Puss in Boots</div>
+        <h2 class="slide-title">The Marquis of Carabas</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>A clever cat asked for boots and a bag. He began bringing gifts to the King, telling him they were from his master, the 'Marquis of Carabas'.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l13"></div><img id="i13"></div>
+        </div></div>
+        <div class="page-number">Puss - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Puss in Boots</div>
+        <h2 class="slide-title">The Ogre's Castle</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l14"></div><img id="i14"></div>
+            <div>
+                <p>Puss visited an Ogre and tricked him into turning into a tiny mouse. <em>Gulp!</em> The cat ate him, and now the castle belonged to his master!</p>
+            </div>
+        </div></div>
+        <div class="page-number">Puss - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Puss in Boots</div>
+        <h2 class="slide-title">Royal Recognition</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>The King was impressed and the boy married the Princess. They lived happily in the castle, and Puss became a great lord.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l15"></div><img id="i15"></div>
+        </div></div>
+        <div class="page-number">Puss - 3</div>
+    </div>
+
+    <!-- STORY 6: THE GRASSHOPPER AND THE ANT -->
+    <div class="slide-container">
+        <div class="story-header">The Grasshopper and the Ant</div>
+        <h2 class="slide-title">The Singing Summer</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>The Grasshopper sang all summer while the Ant worked hard storing food. "Why work?" laughed the Grasshopper. "There's plenty for now!"</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l16"></div><img id="i16"></div>
+        </div></div>
+        <div class="page-number">Ant - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">The Grasshopper and the Ant</div>
+        <h2 class="slide-title">Winter Arrives</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l17"></div><img id="i17"></div>
+            <div>
+                <p>Winter came and the snow covered everything. The Grasshopper was cold and hungry. He went to the Ant's door to ask for help.</p>
+            </div>
+        </div></div>
+        <div class="page-number">Ant - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">The Grasshopper and the Ant</div>
+        <h2 class="slide-title">The Wise Lesson</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>The Ant shared his food but said: "Next time, work while you sing! We must prepare for tomorrow while we enjoy today."</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l18"></div><img id="i18"></div>
+        </div></div>
+        <div class="page-number">Ant - 3</div>
+    </div>
+
+    <!-- STORY 7: LITTLE RED RIDING HOOD -->
+    <div class="slide-container">
+        <div class="story-header">Little Red Riding Hood</div>
+        <h2 class="slide-title">A Walk in the Forest</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Little Red Riding Hood went to see her sick grandmother. On the path, she met a Big Bad Wolf. "Go pick some flowers!" he said slyly.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l19"></div><img id="i19"></div>
+        </div></div>
+        <div class="page-number">Red Hood - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Little Red Riding Hood</div>
+        <h2 class="slide-title">Grandma's House</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l20"></div><img id="i20"></div>
+            <div>
+                <p>The wolf reached the house first and hid Grandma! When Red arrived, she asked: "What big teeth you have!" "The better to eat you with!" growled the wolf.</p>
+            </div>
+        </div></div>
+        <div class="page-number">Red Hood - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Little Red Riding Hood</div>
+        <h2 class="slide-title">The Brave Rescue</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>A brave hunter heard the noise and saved them both! Red learned to stay on the path and always listen to her mother's advice.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l21"></div><img id="i21"></div>
+        </div></div>
+        <div class="page-number">Red Hood - 3</div>
+    </div>
+
+    <!-- STORY 8: BAMBI -->
+    <div class="slide-container">
+        <div class="story-header">Bambi</div>
+        <h2 class="slide-title">A Forest Prince</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Bambi was a young deer who loved to play with Thumper the rabbit and Flower the skunk. He learned all the secrets of the beautiful green woods.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l22"></div><img id="i22"></div>
+        </div></div>
+        <div class="page-number">Bambi - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Bambi</div>
+        <h2 class="slide-title">The King of the Woods</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l23"></div><img id="i23"></div>
+            <div>
+                <p>Bambi grew strong and wise. He met the Great Prince, his father, and learned how to protect the other animals from danger.</p>
+            </div>
+        </div></div>
+        <div class="page-number">Bambi - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">Bambi</div>
+        <h2 class="slide-title">A New Beginning</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Spring came again, and Bambi took his father's place as the new Prince of the Forest, watching over the woods with love and peace.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l24"></div><img id="i24"></div>
+        </div></div>
+        <div class="page-number">Bambi - 3</div>
+    </div>
+
+    <!-- STORY 9: THE VELVETEEN RABBIT -->
+    <div class="slide-container">
+        <div class="story-header">The Velveteen Rabbit</div>
+        <h2 class="slide-title">Truly Loved</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>A soft Velveteen Rabbit wanted to be 'Real'. "Real is something that happens when a child loves you for a long, long time," said the Skin Horse.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l25"></div><img id="i25"></div>
+        </div></div>
+        <div class="page-number">Velveteen - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">The Velveteen Rabbit</div>
+        <h2 class="slide-title">The Fairy's Touch</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l26"></div><img id="i26"></div>
+            <div>
+                <p>The Boy loved the Rabbit until his fur was thin. When the Rabbit was left in the garden, a magic Fairy appeared. "You are Real to the Boy, now you shall be Real to all!"</p>
+            </div>
+        </div></div>
+        <div class="page-number">Velveteen - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">The Velveteen Rabbit</div>
+        <h2 class="slide-title">A Real Rabbit</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>The Rabbit's tail twitched, and his legs hopped! He was now a real wild rabbit, jumping with joy in the green fields forever.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l27"></div><img id="i27"></div>
+        </div></div>
+        <div class="page-number">Velveteen - 3</div>
+    </div>
+
+    <!-- STORY 10: THE WIZARD OF OZ -->
+    <div class="slide-container">
+        <div class="story-header">The Wizard of Oz</div>
+        <h2 class="slide-title">The Cyclone</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>A cyclone carried Dorothy and Toto to Oz. She put on the magic silver shoes and met the Scarecrow, the Tin Man, and the Lion on the Yellow Brick Road.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l28"></div><img id="i28"></div>
+        </div></div>
+        <div class="page-number">Oz - 1</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">The Wizard of Oz</div>
+        <h2 class="slide-title">The Emerald City</h2>
+        <div class="content-area"><div class="two-column">
+            <div class="image-container"><div class="loader" id="l29"></div><img id="i29"></div>
+            <div>
+                <p>They reached the Emerald City to see the Great Wizard. Dorothy was brave and defeated the Wicked Witch with a bucket of water!</p>
+            </div>
+        </div></div>
+        <div class="page-number">Oz - 2</div>
+    </div>
+
+    <div class="slide-container">
+        <div class="story-header">The Wizard of Oz</div>
+        <h2 class="slide-title">No Place Like Home</h2>
+        <div class="content-area"><div class="two-column">
+            <div>
+                <p>Dorothy tapped her shoes three times. "There's no place like home!" she said. Suddenly, she was back in Kansas, safe and sound.</p>
+            </div>
+            <div class="image-container"><div class="loader" id="l30"></div><img id="i30"></div>
+        </div></div>
+        <div class="page-number">Oz - 3</div>
+    </div>
+</div>
+
+<script>
+    const apiKey = ""; 
+
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Error: ${err.message}`);
+            });
+            document.getElementById('btn-text').innerText = "Sair Tela Cheia";
+        } else {
+            document.exitFullscreen();
+            document.getElementById('btn-text').innerText = "Tela Cheia";
+        }
+    }
+
+    async function generateImage(prompt, imgId, loaderId) {
+        const img = document.getElementById(imgId);
+        const ldr = document.getElementById(loaderId);
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key=${apiKey}`;
+        
+        const fetchImage = async (retries = 0) => {
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instances: { prompt: prompt }, parameters: { sampleCount: 1 } })
+                });
+                const data = await response.json();
+                if (data.predictions && data.predictions[0].bytesBase64Encoded) {
+                    img.src = `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
+                    img.style.display = 'block';
+                    ldr.style.display = 'none';
+                } else { throw new Error('API Error'); }
+            } catch (err) {
+                if (retries < 5) {
+                    setTimeout(() => fetchImage(retries + 1), Math.pow(2, retries) * 1000);
+                } else {
+                    ldr.innerHTML = "Image failed";
+                }
+            }
+        };
+        fetchImage();
+    }
+
+    const pref = "A soft vintage watercolor children's book illustration in the style of Beatrix Potter. Pastel colors, detailed garden backgrounds. ";
+
+    window.onload = () => {
+        // Arthur
+        generateImage(pref + "Arthur rabbit in blue jacket by a pine tree.", 'i1', 'l1');
+        generateImage(pref + "Rabbit running from Mr. McGregor in garden.", 'i2', 'l2');
+        generateImage(pref + "Rabbit tucked in bed with tea.", 'i3', 'l3');
+        // Pigs
+        generateImage(pref + "Three little pigs building houses of straw and sticks.", 'i4', 'l4');
+        generateImage(pref + "A wolf huffing and puffing at a house of bricks.", 'i5', 'l5');
+        generateImage(pref + "Three pigs cheering in a strong brick house.", 'i6', 'l6');
+        // Beauty
+        generateImage(pref + "A beautiful girl named Belle in a castle garden.", 'i7', 'l7');
+        generateImage(pref + "Belle reading a book with a kind beast.", 'i8', 'l8');
+        generateImage(pref + "A handsome prince and princess in a ballroom.", 'i9', 'l9');
+        // Peter Pan
+        generateImage(pref + "Peter Pan and children flying over London at night.", 'i10', 'l10');
+        generateImage(pref + "Peter Pan fighting Captain Hook on a pirate ship.", 'i11', 'l11');
+        generateImage(pref + "Peter Pan flying back to Neverland.", 'i12', 'l12');
+        // Puss
+        generateImage(pref + "A cat wearing large boots and a bag.", 'i13', 'l13');
+        generateImage(pref + "A cat chasing a tiny mouse in an ogre's castle.", 'i14', 'l14');
+        generateImage(pref + "A cat in fine clothes at a royal palace.", 'i15', 'l15');
+        // Ant
+        generateImage(pref + "A grasshopper playing violin in a sunny meadow.", 'i16', 'l16');
+        generateImage(pref + "A grasshopper standing in the cold snow.", 'i17', 'l17');
+        generateImage(pref + "Ants sharing food with a grasshopper in winter.", 'i18', 'l18');
+        // Red Hood
+        generateImage(pref + "Little Red Riding Hood walking through a forest.", 'i19', 'l19');
+        generateImage(pref + "A wolf dressed as grandma in bed.", 'i20', 'l20');
+        generateImage(pref + "A hunter saving a girl and grandma.", 'i21', 'l21');
+        // Bambi
+        generateImage(pref + "A baby deer in a meadow with flowers.", 'i22', 'l22');
+        generateImage(pref + "A large wise deer with antlers in the forest.", 'i23', 'l23');
+        generateImage(pref + "A strong deer looking over the valley from a cliff.", 'i24', 'l24');
+        // Velveteen
+        generateImage(pref + "A toy velvet rabbit in a boy's playroom.", 'i25', 'l25');
+        generateImage(pref + "A magic fairy touching a toy rabbit.", 'i26', 'l26');
+        generateImage(pref + "A real rabbit hopping in the woods.", 'i27', 'l27');
+        // Oz
+        generateImage(pref + "Dorothy walking on a yellow brick road with Toto.", 'i28', 'l28');
+        generateImage(pref + "Scarecrow, Tin Man, and Lion in Emerald City.", 'i29', 'l29');
+        generateImage(pref + "Dorothy waking up in a field in Kansas.", 'i30', 'l30');
+    };
+</script>
+
+</body>
 </html>
