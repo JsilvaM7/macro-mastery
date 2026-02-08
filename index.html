@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classic Bedtime Stories - Full Edition</title>
+    <title>Classic Bedtime Stories - Premium 80-Slide Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         /* CONFIGURAÇÃO DE DESIGN PROFISSIONAL */
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background-color: #f0f2f5;
             display: flex;
@@ -34,7 +40,7 @@
             font-family: 'Lato', sans-serif;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -48,7 +54,7 @@
         .slide-container {
             background-color: #fffaf1;
             border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
             display: flex;
             flex-direction: column;
             font-family: 'Lato', sans-serif;
@@ -128,407 +134,1306 @@
         }
 
         @media (max-width: 1250px) {
-            .slide-container { width: 95%; height: auto; min-height: 700px; }
-            .two-column { grid-template-columns: 1fr; gap: 30px; }
-            .image-container { height: 400px; }
+            .slide-container {
+                width: 95%;
+                height: auto;
+                min-height: 700px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .image-container {
+                height: 400px;
+            }
+        }
+
+        /* TOP NAV STYLES */
+        #top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #3e2723;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            z-index: 1001;
+            padding: 0 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        #top-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            background: #4e342e;
+            color: #d7ccc8;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            min-height: 44px;
+        }
+
+        .tab-btn:hover {
+            background-color: #5d4037;
+            color: #fff;
+        }
+
+        .tab-btn.active {
+            background-color: #5d4037 !important;
+            color: #fff;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ffcc80;
+        }
+
+        /* Adjust Main Content */
+        #content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px;
+        }
+
+        /* Hide logic */
+        .slide-container {
+            display: none;
+        }
+
+        .slide-container.active {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
 
-<button id="fullscreen-btn" onclick="toggleFS()">
-    ⛶ FULL SCREEN
-</button>
+    <button id="fullscreen-btn" onclick="toggleFS()">
+        ⛶ FULL SCREEN
+    </button>
 
-<div id="stories-wrapper">
-    
-    <!-- 1. ARTHUR THE RABBIT -->
-    <div class="slide-container">
-        <div class="story-header">Arthur the Rabbit</div>
-        <h2 class="slide-title">The Big Warning</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>Once upon a time, four little Rabbits named <strong>Daisy, Bella, Oliver, and Arthur</strong> lived under a big fir tree. Their mother warned them: "Go to the fields, but never enter Mr. McGregor's garden!"</p>
-                <p>While the girls went to pick berries, naughty Arthur ran straight to the garden and squeezed under the gate to eat radishes!</p>
+    <header id="top-nav">
+        <button class="tab-btn" onclick="filterStories('Arthur the Rabbit')">Arthur the Rabbit</button>
+        <button class="tab-btn" onclick="filterStories('The Three Little Pigs')">The Three Little Pigs</button>
+        <button class="tab-btn" onclick="filterStories('Cinderella')">Cinderella</button>
+        <button class="tab-btn" onclick="filterStories('Rapunzel')">Rapunzel</button>
+        <button class="tab-btn" onclick="filterStories('The Wizard of Oz')">The Wizard of Oz</button>
+        <button class="tab-btn" onclick="filterStories('Beauty and the Beast')">Beauty and the Beast</button>
+        <button class="tab-btn" onclick="filterStories('Little Red Riding Hood')">Little Red Riding Hood</button>
+        <button class="tab-btn" onclick="filterStories('Hansel and Gretel')">Hansel and Gretel</button>
+        <button class="tab-btn" onclick="filterStories('Aladdin')">Aladdin</button>
+        <button class="tab-btn" onclick="filterStories('Peter Pan')">Peter Pan</button>
+    </header>
+
+    <main id="content">
+        <div id="stories-wrapper">
+
+            <!-- 1. ARTHUR THE RABBIT (8 slides) -->
+            <div class="slide-container" data-story="Arthur the Rabbit">
+                <div class="story-header">Arthur the Rabbit</div>
+                <h2 class="slide-title">The Big Warning</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Once upon a time, four little Rabbits named <strong>Daisy, Bella, Oliver, and
+                                    Arthur</strong> lived under a big fir tree. Their mother warned them: "Go to the
+                                fields, but never enter Mr. McGregor's garden!"</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/arthur_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
             </div>
-            <div class="image-container"><img src="imagens/arthur_1.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 1</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Arthur the Rabbit</div>
-        <h2 class="slide-title">Escape from the Garden</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/arthur_2.png" alt=""></div>
-            <div>
-                <p>Suddenly, Mr. McGregor spotted him! "Stop, thief!" Arthur ran so fast he lost his shoes. He got caught in a net, but escaped by leaving his blue jacket behind.</p>
-                <p>He hid in a wet watering can and narrowly escaped through a tiny window, trembling with fear.</p>
+            <div class="slide-container" data-story="Arthur the Rabbit">
+                <div class="story-header">Arthur the Rabbit</div>
+                <h2 class="slide-title">The Naughty Escape</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/arthur_2.png" alt=""></div>
+                        <div>
+                            <p>While his sisters picked berries, naughty Arthur ran straight to the forbidden garden and
+                                squeezed under the gate to eat juicy radishes!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 2</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Arthur the Rabbit</div>
-        <h2 class="slide-title">Home Sweet Home</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>Arthur finally found the gate and ran all the way home. He was so tired he flopped on the sand. His mother tucked him in with chamomile tea while his siblings ate a delicious dinner.</p>
-                <p>He was safe at last, learning that listening to Mother is always best.</p>
+            <div class="slide-container" data-story="Arthur the Rabbit">
+                <div class="story-header">Arthur the Rabbit</div>
+                <h2 class="slide-title">The Angry Gardener</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Suddenly, Mr. McGregor spotted him! "Stop, thief!" Arthur ran so fast he lost his shoes.
+                                He got caught in a net, but escaped by leaving his blue jacket behind.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/arthur_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
             </div>
-            <div class="image-container"><img src="imagens/arthur_3.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 3</div>
-    </div>
-
-    <!-- 2. THREE LITTLE PIGS -->
-    <div class="slide-container">
-        <div class="story-header">The Three Little Pigs</div>
-        <h2 class="slide-title">The Three Houses</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/pigs_1.png" alt=""></div>
-            <div>
-                <p>Three little pigs went out to seek their fortune. One built a house of straw, another of sticks, and the third of strong bricks. But a Big Bad Wolf was watching!</p>
-                <p>"Little pig, let me in!" the wolf cried as he blew the straw house away in one breath!</p>
+            <div class="slide-container" data-story="Arthur the Rabbit">
+                <div class="story-header">Arthur the Rabbit</div>
+                <h2 class="slide-title">Hiding in the Can</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/arthur_1.png" alt=""></div>
+                        <div>
+                            <p>He hid in a wet watering can, trembling with fear while Mr. McGregor searched everywhere.
+                                He narrowlly escaped through a tiny window.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 4</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">The Three Little Pigs</div>
-        <h2 class="slide-title">The Wolf's Huff and Puff</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>The wolf arrived at the brick house. He huffed and puffed with all his might, but the house didn't move! The wolf was furious and decided to climb the chimney.</p>
+            <div class="slide-container" data-story="Arthur the Rabbit">
+                <div class="story-header">Arthur the Rabbit</div>
+                <h2 class="slide-title">Frightened and Lost</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Arthur didn't know the way home. He met a white cat and a robin, but they couldn't help
+                                him. The garden felt like a massive maze.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/arthur_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
             </div>
-            <div class="image-container"><img src="imagens/pigs_2.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 5</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">The Three Little Pigs</div>
-        <h2 class="slide-title">The Clever Plan</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/pigs_3.png" alt=""></div>
-            <div>
-                <p>The pigs had a pot of boiling water in the fireplace. The wolf fell in and ran away forever! The three brothers lived together happily ever after in the safe house of bricks.</p>
+            <div class="slide-container" data-story="Arthur the Rabbit">
+                <div class="story-header">Arthur the Rabbit</div>
+                <h2 class="slide-title">Finding the Gate</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/arthur_3.png" alt=""></div>
+                        <div>
+                            <p>Finally, he saw the gate in the distance! He ran past the cabbages as fast as his little
+                                legs could go, without looking back.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 6</div>
-    </div>
-
-    <!-- 3. BEAUTY AND THE BEAST -->
-    <div class="slide-container">
-        <div class="story-header">Beauty and the Beast</div>
-        <h2 class="slide-title">The Enchanted Castle</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>Belle lived in a grand castle with a Beast who seemed scary. But as they spent time together reading and talking, Belle saw the kindness in his heart.</p>
+            <div class="slide-container" data-story="Arthur the Rabbit">
+                <div class="story-header">Arthur the Rabbit</div>
+                <h2 class="slide-title">Safe at Home</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Arthur flopped on the soft sand floor of the rabbit hole. He was safe! His mother was
+                                surprised to see him without his jacket and shoes.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/arthur_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
             </div>
-            <div class="image-container"><img src="imagens/beauty_1.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 7</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Beauty and the Beast</div>
-        <h2 class="slide-title">True Kindness Within</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/beauty_2.png" alt=""></div>
-            <div>
-                <p>The Beast gave Belle a magical mirror to see her father. He let her go home because he loved her. Belle realized she couldn't stay away from her friend.</p>
+            <div class="slide-container" data-story="Arthur the Rabbit">
+                <div class="story-header">Arthur the Rabbit</div>
+                <h2 class="slide-title">Sweet Dreams</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/arthur_2.png" alt=""></div>
+                        <div>
+                            <p>His sisters had bread and milk, but Arthur was too tired. Mother tucked him in with
+                                chamomile tea, and he slept soundly, learning his lesson.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 8</div>
-    </div>
 
-    <div class="slide-container">
-        <div class="story-header">Beauty and the Beast</div>
-        <h2 class="slide-title">True Love's Bloom</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>Belle returned and found the Beast weak. "I love you!" she cried. Suddenly, he transformed into a handsome Prince. Love had broken the spell forever.</p>
+            <!-- 2. THE THREE LITTLE PIGS (8 slides) -->
+            <div class="slide-container" data-story="The Three Little Pigs">
+                <div class="story-header">The Three Little Pigs</div>
+                <h2 class="slide-title">Time to Leave Home</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Three little pigs set out to seek their fortune. Their mother warned them to always build
+                                strong homes to keep out the Big Bad Wolf.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/pigs_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
             </div>
-            <div class="image-container"><img src="imagens/beauty_3.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 9</div>
-    </div>
-
-    <!-- 4. PETER PAN -->
-    <div class="slide-container">
-        <div class="story-header">Peter Pan</div>
-        <h2 class="slide-title">To Neverland!</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/peter_1.png" alt=""></div>
-            <div>
-                <p>Peter Pan and Tinker Bell flew Wendy and her brothers to Neverland. "Second star to the right and straight on till morning!" they cheered as they soared over London.</p>
+            <div class="slide-container" data-story="The Three Little Pigs">
+                <div class="story-header">The Three Little Pigs</div>
+                <h2 class="slide-title">The House of Straw</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/pigs_2.png" alt=""></div>
+                        <div>
+                            <p>The first pig was lazy. He built his house of straw because it was quick and easy. "Now I
+                                can play all day!" he sang happily.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 10</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Peter Pan</div>
-        <h2 class="slide-title">The Pirate Battle</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>They met the Lost Boys, but the evil Captain Hook was waiting! After a great battle on the pirate ship, Hook was chased away by the ticking crocodile.</p>
+            <div class="slide-container" data-story="The Three Little Pigs">
+                <div class="story-header">The Three Little Pigs</div>
+                <h2 class="slide-title">The House of Sticks</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>The second pig built a house of sticks. It was stronger than straw, but still very weak.
+                                He hurried so he could join his brother in playing games.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/pigs_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
             </div>
-            <div class="image-container"><img src="imagens/peter_2.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 11</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Peter Pan</div>
-        <h2 class="slide-title">The Boy Who Never Grew Up</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/peter_3.png" alt=""></div>
-            <div>
-                <p>Wendy went home, but she never forgot Peter Pan. He flew back to Neverland, where the magic never ends and adventure is always around the corner.</p>
+            <div class="slide-container" data-story="The Three Little Pigs">
+                <div class="story-header">The Three Little Pigs</div>
+                <h2 class="slide-title">The House of Bricks</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/pigs_1.png" alt=""></div>
+                        <div>
+                            <p>The third pig worked hard all day. He built his house with heavy bricks and strong
+                                cement. His brothers laughed at his hard work, but he didn't care.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 12</div>
-    </div>
-
-    <!-- 5. PUSS IN BOOTS -->
-    <div class="slide-container">
-        <div class="story-header">Puss in Boots</div>
-        <h2 class="slide-title">The Marquis of Carabas</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>A clever cat asked for boots and a bag. He began bringing gifts to the King, telling him they were from his master, the 'Marquis of Carabas'.</p>
+            <div class="slide-container" data-story="The Three Little Pigs">
+                <div class="story-header">The Three Little Pigs</div>
+                <h2 class="slide-title">The Wolf's Arrival</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Suddenly, the Big Bad Wolf came knocking on the straw door. "Little pig, let me in!" he
+                                roared. When the pig said no, the wolf blew the house down!</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/pigs_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
             </div>
-            <div class="image-container"><img src="imagens/puss_1.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 13</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Puss in Boots</div>
-        <h2 class="slide-title">The Ogre's Challenge</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/puss_2.png" alt=""></div>
-            <div>
-                <p>Puss visited an Ogre and tricked him into turning into a tiny mouse. <em>Gulp!</em> The cat ate him, and now the castle belonged to his master!</p>
+            <div class="slide-container" data-story="The Three Little Pigs">
+                <div class="story-header">The Three Little Pigs</div>
+                <h2 class="slide-title">Running for Safety</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/pigs_3.png" alt=""></div>
+                        <div>
+                            <p>The first pig ran to the house of sticks. But the wolf followed and blew that house down
+                                too! Both pigs ran to the brick house just in time.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 14</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Puss in Boots</div>
-        <h2 class="slide-title">Royal Recognition</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>The King was impressed and the boy married the Princess. They lived happily in the castle, and Puss became a great lord who never caught mice again.</p>
+            <div class="slide-container" data-story="The Three Little Pigs">
+                <div class="story-header">The Three Little Pigs</div>
+                <h2 class="slide-title">The Ultimate Test</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>The wolf huffed and puffed at the brick house, but it didn't move! Furious, he climbed to
+                                the roof to go down the chimney.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/pigs_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
             </div>
-            <div class="image-container"><img src="imagens/puss_3.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 15</div>
-    </div>
-
-    <!-- 6. THE GRASSHOPPER AND THE ANT -->
-    <div class="slide-container">
-        <div class="story-header">The Grasshopper and the Ant</div>
-        <h2 class="slide-title">The Singing Summer</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/ant_1.png" alt=""></div>
-            <div>
-                <p>The Grasshopper sang all summer while the Ant worked hard storing food. "Why work?" laughed the Grasshopper. "There's plenty for now!"</p>
+            <div class="slide-container" data-story="The Three Little Pigs">
+                <div class="story-header">The Three Little Pigs</div>
+                <h2 class="slide-title">Victory for the Pigs</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/pigs_2.png" alt=""></div>
+                        <div>
+                            <p>The pigs had a pot of boiling water ready. The wolf fell in and ran away forever. The
+                                three brothers lived safely in the brick house ever after.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 16</div>
-    </div>
 
-    <div class="slide-container">
-        <div class="story-header">The Grasshopper and the Ant</div>
-        <h2 class="slide-title">Winter's Arrival</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>Winter came and the snow covered everything. The Grasshopper was cold and hungry. He went to the Ant's door to ask for help.</p>
+            <!-- 3. CINDERELLA (8 slides) - Uses puss assets -->
+            <div class="slide-container" data-story="Cinderella">
+                <div class="story-header">Cinderella</div>
+                <h2 class="slide-title">The Humble Servant</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Poor Cinderella worked hard day and night for her stepmother and stepsisters. Her only
+                                friends were the mice and birds in the castle attic.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/puss_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
             </div>
-            <div class="image-container"><img src="imagens/ant_2.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 17</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">The Grasshopper and the Ant</div>
-        <h2 class="slide-title">The Wise Lesson</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/ant_3.png" alt=""></div>
-            <div>
-                <p>The Ant shared his food but said: "Next time, work while you sing! We must prepare for tomorrow while we enjoy today."</p>
+            <div class="slide-container" data-story="Cinderella">
+                <div class="story-header">Cinderella</div>
+                <h2 class="slide-title">A Royal Invitation</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/puss_2.png" alt=""></div>
+                        <div>
+                            <p>An invitation arrived for a grand ball at the palace! Cinderella wanted to go, but her
+                                sisters tore her dress and left her crying in the garden.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 18</div>
-    </div>
-
-    <!-- 7. LITTLE RED RIDING HOOD -->
-    <div class="slide-container">
-        <div class="story-header">Little Red Riding Hood</div>
-        <h2 class="slide-title">A Walk in the Forest</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>Little Red Riding Hood went to see her grandmother. On the path, she met a Big Bad Wolf. "Go pick some flowers!" he said slyly.</p>
+            <div class="slide-container" data-story="Cinderella">
+                <div class="story-header">Cinderella</div>
+                <h2 class="slide-title">The Fairy Godmother</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Suddenly, a magic light appeared! The Fairy Godmother turned a pumpkin into a carriage
+                                and Cinderella's rags into a beautiful sparkling gown.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/puss_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
             </div>
-            <div class="image-container"><img src="imagens/red_1.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 19</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Little Red Riding Hood</div>
-        <h2 class="slide-title">Grandma's House</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/red_2.png" alt=""></div>
-            <div>
-                <p>The wolf reached the house first! When Red arrived, she noticed: "What big teeth you have!" "The better to eat you with!" growled the wolf.</p>
+            <div class="slide-container" data-story="Cinderella">
+                <div class="story-header">Cinderella</div>
+                <h2 class="slide-title">The Magic Glass Slippers</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/puss_1.png" alt=""></div>
+                        <div>
+                            <p>"Remember," warned the Fairy, "the spell breaks at midnight!" Cinderella put on her glass
+                                slippers and rode to the palace in style.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 20</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Little Red Riding Hood</div>
-        <h2 class="slide-title">The Brave Rescue</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>A brave hunter heard the noise and saved them! Red learned to stay on the path and always listen to her mother's advice.</p>
+            <div class="slide-container" data-story="Cinderella">
+                <div class="story-header">Cinderella</div>
+                <h2 class="slide-title">Dancing with the Prince</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>The Prince fell in love at first sight. They danced all night, and Cinderella forgot
+                                about the time until the clock began to strike midnight!</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/puss_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
             </div>
-            <div class="image-container"><img src="imagens/red_3.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 21</div>
-    </div>
-
-    <!-- 8. BAMBI -->
-    <div class="slide-container">
-        <div class="story-header">Bambi</div>
-        <h2 class="slide-title">A Forest Prince</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/bambi_1.png" alt=""></div>
-            <div>
-                <p>Bambi was a young deer who loved to play with <strong>Tambor</strong> and <strong>Flor</strong>. Ele aprendeu todos os segredos da floresta com a sua mãe.</p>
+            <div class="slide-container" data-story="Cinderella">
+                <div class="story-header">Cinderella</div>
+                <h2 class="slide-title">The Lost Slipper</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/puss_3.png" alt=""></div>
+                        <div>
+                            <p>Cinderella ran down the stairs, losing one glass slipper. She escaped just as the
+                                carriage turned back into a pumpkin and her dress into rags.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 22</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Bambi</div>
-        <h2 class="slide-title">The Seasons of Growth</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>Bambi grew strong and wise. He met the Great Prince, his father, and learned how to protect the other animals from danger in the woods.</p>
+            <div class="slide-container" data-story="Cinderella">
+                <div class="story-header">Cinderella</div>
+                <h2 class="slide-title">The Search Begins</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>The Prince searched the kingdom for the girl whose foot fit the slipper. When he reached
+                                Cinderella's house, it fit her perfectly!</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/puss_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
             </div>
-            <div class="image-container"><img src="imagens/bambi_2.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 23</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">Bambi</div>
-        <h2 class="slide-title">A New Beginning</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/bambi_3.png" alt=""></div>
-            <div>
-                <p>Spring came again, and Bambi took his father's place as the new Prince of the Forest, watching over the woods with love and peace.</p>
+            <div class="slide-container" data-story="Cinderella">
+                <div class="story-header">Cinderella</div>
+                <h2 class="slide-title">A Wedding at the Palace</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/puss_2.png" alt=""></div>
+                        <div>
+                            <p>Cinderella married the Prince and moved into the beautiful castle. She was kind and
+                                forgave her sisters, and they all lived happily ever after.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 24</div>
-    </div>
 
-    <!-- 9. THE VELVETEEN RABBIT -->
-    <div class="slide-container">
-        <div class="story-header">The Velveteen Rabbit</div>
-        <h2 class="slide-title">Truly Loved</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>A soft Velveteen Rabbit wanted to be 'Real'. "Real is something that happens when a child loves you for a long time," said the Skin Horse.</p>
+            <!-- 4. RAPUNZEL (8 slides) - Uses ant assets -->
+            <div class="slide-container" data-story="Rapunzel">
+                <div class="story-header">Rapunzel</div>
+                <h2 class="slide-title">The Hidden Tower</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Rapunzel lived in a high tower with no doors. Her long golden hair was her only way to
+                                communicate with the world outside.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/ant_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
             </div>
-            <div class="image-container"><img src="imagens/velveteen_1.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 25</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">The Velveteen Rabbit</div>
-        <h2 class="slide-title">The Fairy's Touch</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/velveteen_2.png" alt=""></div>
-            <div>
-                <p>The Boy loved the Rabbit until his fur was thin. When the Rabbit was left in the garden, a magic Fairy appeared to grant his wish.</p>
+            <div class="slide-container" data-story="Rapunzel">
+                <div class="story-header">Rapunzel</div>
+                <h2 class="slide-title">Let Down Your Hair</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/ant_2.png" alt=""></div>
+                        <div>
+                            <p>Every day, the witch would cry: "Rapunzel, Rapunzel, let down your hair!" and climb up
+                                the long, golden braid to the top.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 26</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">The Velveteen Rabbit</div>
-        <h2 class="slide-title">A Real Rabbit</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>The Rabbit's tail twitched, and his legs hopped! He was now a real wild rabbit, jumping with joy in the green fields forever.</p>
+            <div class="slide-container" data-story="Rapunzel">
+                <div class="story-header">Rapunzel</div>
+                <h2 class="slide-title">The Prince's Visit</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>A Prince heard Rapunzel singing and climbed the tower. They became friends and planned
+                                for her escape from the lonely tower room.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/ant_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
             </div>
-            <div class="image-container"><img src="imagens/velveteen_3.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 27</div>
-    </div>
-
-    <!-- 10. THE WIZARD OF OZ -->
-    <div class="slide-container">
-        <div class="story-header">The Wizard of Oz</div>
-        <h2 class="slide-title">The Yellow Brick Road</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/oz_1.png" alt=""></div>
-            <div>
-                <p>A cyclone carried <strong>Dorothy</strong> and Toto from Kansas to Oz. She met the Scarecrow, the Tin Man, and the Lion on the Yellow Brick Road.</p>
+            <div class="slide-container" data-story="Rapunzel">
+                <div class="story-header">Rapunzel</div>
+                <h2 class="slide-title">The Witch's Discovery</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/ant_1.png" alt=""></div>
+                        <div>
+                            <p>The witch found out! She cut Rapunzel's hair and sent her far away. The Prince was
+                                heartbroken when he found the tower empty.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 28</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">The Wizard of Oz</div>
-        <h2 class="slide-title">The Emerald City</h2>
-        <div class="content-area"><div class="two-column">
-            <div>
-                <p>They reached the Emerald City to see the Great Wizard. Dorothy was brave and defeated the Wicked Witch with a bucket of water!</p>
+            <div class="slide-container" data-story="Rapunzel">
+                <div class="story-header">Rapunzel</div>
+                <h2 class="slide-title">Lost in the Woods</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Rapunzel lived in the forest for a long time. She missed the Prince and her tower, but
+                                she learned to survive on the gifts of nature.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/ant_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
             </div>
-            <div class="image-container"><img src="imagens/oz_2.png" alt=""></div>
-        </div></div>
-        <div class="page-number">Page 29</div>
-    </div>
-
-    <div class="slide-container">
-        <div class="story-header">The Wizard of Oz</div>
-        <h2 class="slide-title">No Place Like Home</h2>
-        <div class="content-area"><div class="two-column">
-            <div class="image-container"><img src="imagens/oz_3.png" alt=""></div>
-            <div>
-                <p>Dorothy tapped her silver shoes together three times. "There's no place like home!" she said. Suddenly, she was back in Kansas, safe and sound.</p>
+            <div class="slide-container" data-story="Rapunzel">
+                <div class="story-header">Rapunzel</div>
+                <h2 class="slide-title">A Fateful Reunion</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/ant_3.png" alt=""></div>
+                        <div>
+                            <p>One day, the Prince heard a familiar voice singing in the distance. He followed the sound
+                                through the trees and found his Rapunzel!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
             </div>
-        </div></div>
-        <div class="page-number">Page 30</div>
-    </div>
+            <div class="slide-container" data-story="Rapunzel">
+                <div class="story-header">Rapunzel</div>
+                <h2 class="slide-title">The Power of Tears</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Rapunzel's tears of joy fell on the Prince's eyes, and he could see again. Their love was
+                                stronger than any witch's dark magic.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/ant_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
+            </div>
+            <div class="slide-container" data-story="Rapunzel">
+                <div class="story-header">Rapunzel</div>
+                <h2 class="slide-title">Happy Ever After</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/ant_2.png" alt=""></div>
+                        <div>
+                            <p>They traveled back to the Prince's kingdom and were married in a grand celebration.
+                                Rapunzel never had to live in a tower again.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
+            </div>
 
-</div>
+            <!-- 5. THE WIZARD OF OZ (8 slides) -->
+            <div class="slide-container" data-story="The Wizard of Oz">
+                <div class="story-header">The Wizard of Oz</div>
+                <h2 class="slide-title">The Kansas Cyclone</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>A massive cyclone carried <strong>Dorothy</strong> and her dog Toto far away from Kansas.
+                                They landed in a magical world called Oz, right on a Wicked Witch!</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/oz_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
+            </div>
+            <div class="slide-container" data-story="The Wizard of Oz">
+                <div class="story-header">The Wizard of Oz</div>
+                <h2 class="slide-title">The Silver Shoes</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/oz_2.png" alt=""></div>
+                        <div>
+                            <p>The Good Witch gave Dorothy magic silver shoes. "Follow the Yellow Brick Road to the
+                                Emerald City," she said. "The Wizard can help you get home."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
+            </div>
+            <div class="slide-container" data-story="The Wizard of Oz">
+                <div class="story-header">The Wizard of Oz</div>
+                <h2 class="slide-title">The Scarecrow</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>On her way, she met a Scarecrow who wanted a brain. He joined her on the road, hoping the
+                                Wizard would grant his wish too.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/oz_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
+            </div>
+            <div class="slide-container" data-story="The Wizard of Oz">
+                <div class="story-header">The Wizard of Oz</div>
+                <h2 class="slide-title">The Tin Woodman</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/oz_1.png" alt=""></div>
+                        <div>
+                            <p>They found a Tin Woodman in the forest. He was rusted still, but once oiled, he asked for
+                                a heart. The group of friends grew even larger!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
+            </div>
+            <div class="slide-container" data-story="The Wizard of Oz">
+                <div class="story-header">The Wizard of Oz</div>
+                <h2 class="slide-title">The Cowardly Lion</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>A great Lion jumped onto the road! But he was secretly very scared and wanted courage.
+                                Now, four friends walked toward the Emerald City.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/oz_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
+            </div>
+            <div class="slide-container" data-story="The Wizard of Oz">
+                <div class="story-header">The Wizard of Oz</div>
+                <h2 class="slide-title">Meeting the Wizard</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/oz_3.png" alt=""></div>
+                        <div>
+                            <p>The Emerald City was shining! The Wizard appeared as a giant head. He told them: "Defeat
+                                the Wicked Witch, and I will grant your wishes."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
+            </div>
+            <div class="slide-container" data-story="The Wizard of Oz">
+                <div class="story-header">The Wizard of Oz</div>
+                <h2 class="slide-title">Defeating the Witch</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>They reached the Witch's castle. Dorothy splashed her with a bucket of water, and she
+                                melted away! The friends returned to the Wizard as heroes.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/oz_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
+            </div>
+            <div class="slide-container" data-story="The Wizard of Oz">
+                <div class="story-header">The Wizard of Oz</div>
+                <h2 class="slide-title">There's No Place Like Home</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/oz_2.png" alt=""></div>
+                        <div>
+                            <p>Dorothy tapped her shoes three times. "There's no place like home!" she cried. She woke
+                                up in her own bed in Kansas, safe and happy at last.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
+            </div>
 
-<script>
-    function toggleFS() {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => {
-                console.log(`Error entering full screen: ${err.message}`);
-            });
-        } else {
-            document.exitFullscreen();
+            <!-- 6. BEAUTY AND THE BEAST (8 slides) -->
+            <div class="slide-container" data-story="Beauty and the Beast">
+                <div class="story-header">Beauty and the Beast</div>
+                <h2 class="slide-title">A Merchant's Travel</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>A merchant got lost in a storm and found a magical castle. He picked a rose for his
+                                daughter Belle, which angered the master of the house.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/beauty_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
+            </div>
+            <div class="slide-container" data-story="Beauty and the Beast">
+                <div class="story-header">Beauty and the Beast</div>
+                <h2 class="slide-title">The Beast's Offer</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/beauty_2.png" alt=""></div>
+                        <div>
+                            <p>A scary Beast appeared! He told the merchant: "You may go, but your daughter must live
+                                with me." Belle agreed to save her father.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
+            </div>
+            <div class="slide-container" data-story="Beauty and the Beast">
+                <div class="story-header">Beauty and the Beast</div>
+                <h2 class="slide-title">Living in the Castle</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Belle found the castle enchanting. The furniture could talk, and the library was huge!
+                                Slowly, she began to see the Beast was not mean at all.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/beauty_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
+            </div>
+            <div class="slide-container" data-story="Beauty and the Beast">
+                <div class="story-header">Beauty and the Beast</div>
+                <h2 class="slide-title">The Magic Mirror</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/beauty_1.png" alt=""></div>
+                        <div>
+                            <p>The Beast gave Belle a mirror to see her home. She saw her father was ill, and the Beast
+                                kindly let her go to take care of him.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
+            </div>
+            <div class="slide-container" data-story="Beauty and the Beast">
+                <div class="story-header">Beauty and the Beast</div>
+                <h2 class="slide-title">A Promise Kept</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Belle promised to return in one week. Her sisters tried to keep her at home, but Belle
+                                knew she had to go back to her friend in the castle.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/beauty_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
+            </div>
+            <div class="slide-container" data-story="Beauty and the Beast">
+                <div class="story-header">Beauty and the Beast</div>
+                <h2 class="slide-title">Finding the Beast</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/beauty_3.png" alt=""></div>
+                        <div>
+                            <p>Belle arrived and found the Beast weak in the garden. "Please don't die!" she cried. "I
+                                love you just the way you are!"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
+            </div>
+            <div class="slide-container" data-story="Beauty and the Beast">
+                <div class="story-header">Beauty and the Beast</div>
+                <h2 class="slide-title">The Prince Returns</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Suddenly, with a flash of light, the Beast turned into a handsome Prince! A spell had
+                                been broken by true love and kindness.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/beauty_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
+            </div>
+            <div class="slide-container" data-story="Beauty and the Beast">
+                <div class="story-header">Beauty and the Beast</div>
+                <h2 class="slide-title">A Royal Wedding</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/beauty_2.png" alt=""></div>
+                        <div>
+                            <p>The Prince and Belle were married in a castle full of joy. They lived happily ever after,
+                                showing that true beauty comes from within.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
+            </div>
+
+            <!-- 7. LITTLE RED RIDING HOOD (8 slides) -->
+            <div class="slide-container" data-story="Little Red Riding Hood">
+                <div class="story-header">Little Red Riding Hood</div>
+                <h2 class="slide-title">A Basket for Grandma</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Little Red Riding Hood set off to visit her grandmother with a basket of cakes. "Stay on
+                                the path!" her mother warned as she waved goodbye.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/red_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
+            </div>
+            <div class="slide-container" data-story="Little Red Riding Hood">
+                <div class="story-header">Little Red Riding Hood</div>
+                <h2 class="slide-title">The Wolf in the Woods</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/red_2.png" alt=""></div>
+                        <div>
+                            <p>A sly Wolf met her on the path. "Why not pick some flowers?" he asked. While she was
+                                busy, he ran straight to Grandma's little house.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
+            </div>
+            <div class="slide-container" data-story="Little Red Riding Hood">
+                <div class="story-header">Little Red Riding Hood</div>
+                <h2 class="slide-title">A Sly Trick</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>The Wolf reached the house and locked Grandma in the cupboard. He put on her nightgown
+                                and cap, waiting for the little girl to arrive.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/red_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
+            </div>
+            <div class="slide-container" data-story="Little Red Riding Hood">
+                <div class="story-header">Little Red Riding Hood</div>
+                <h2 class="slide-title">The Strange Grandma</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/red_1.png" alt=""></div>
+                        <div>
+                            <p>Red knocked on the door and entered. "Grandma, what big ears you have!" she said. "The
+                                better to hear you with, my dear," the Wolf replied.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
+            </div>
+            <div class="slide-container" data-story="Little Red Riding Hood">
+                <div class="story-header">Little Red Riding Hood</div>
+                <h2 class="slide-title">The Big Reveal</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>"And what big teeth you have!" Red cried. "The better to eat you with!" growled the Wolf,
+                                jumping out of the warm bed.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/red_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
+            </div>
+            <div class="slide-container" data-story="Little Red Riding Hood">
+                <div class="story-header">Little Red Riding Hood</div>
+                <h2 class="slide-title">The Woodcutter's Help</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/red_3.png" alt=""></div>
+                        <div>
+                            <p>A brave Woodcutter heard the commotion. He chased the Wolf away into the deep forest,
+                                making sure he would never return to bother anyone again.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
+            </div>
+            <div class="slide-container" data-story="Little Red Riding Hood">
+                <div class="story-header">Little Red Riding Hood</div>
+                <h2 class="slide-title">Grandma is Safe</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>They opened the cupboard and found Grandma safe and sound. They all sat down to enjoy the
+                                delicious cakes from the basket together.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/red_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
+            </div>
+            <div class="slide-container" data-story="Little Red Riding Hood">
+                <div class="story-header">Little Red Riding Hood</div>
+                <h2 class="slide-title">The Important Lesson</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/red_2.png" alt=""></div>
+                        <div>
+                            <p>Red promised to always stay on the path and never talk to strangers again. She walked
+                                home safely, knowing that listening to Mother is best.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
+            </div>
+
+            <!-- 8. HANSEL AND GRETEL (8 slides) - Uses bambi assets -->
+            <div class="slide-container" data-story="Hansel and Gretel">
+                <div class="story-header">Hansel and Gretel</div>
+                <h2 class="slide-title">Alone in the Forest</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Hansel and Gretel were lost in a dark forest. They used white pebbles to find their way
+                                home, but the birds ate their breadcrumbs!</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/bambi_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
+            </div>
+            <div class="slide-container" data-story="Hansel and Gretel">
+                <div class="story-header">Hansel and Gretel</div>
+                <h2 class="slide-title">The Edible House</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/bambi_2.png" alt=""></div>
+                        <div>
+                            <p>They found a house made of gingerbread and candy! "Nibble, nibble, little mouse," a voice
+                                called from inside the delicious-looking home.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
+            </div>
+            <div class="slide-container" data-story="Hansel and Gretel">
+                <div class="story-header">Hansel and Gretel</div>
+                <h2 class="slide-title">The Witch's Trap</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>An old witch lived there! She captured Hansel and made Gretel work all day in the
+                                sugar-coated kitchen, planning a mean trick.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/bambi_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
+            </div>
+            <div class="slide-container" data-story="Hansel and Gretel">
+                <div class="story-header">Hansel and Gretel</div>
+                <h2 class="slide-title">The Clever Plan</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/bambi_1.png" alt=""></div>
+                        <div>
+                            <p>Gretel pretended she didn't know how to use the oven. When the witch leaned in to show
+                                her, Gretel gave her a big push and locked the door!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
+            </div>
+            <div class="slide-container" data-story="Hansel and Gretel">
+                <div class="story-header">Hansel and Gretel</div>
+                <h2 class="slide-title">Finding Treasures</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>The children found a room full of pearls and gold. They filled their pockets with
+                                treasures and ran out of the gingerbread house as fast as they could.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/bambi_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
+            </div>
+            <div class="slide-container" data-story="Hansel and Gretel">
+                <div class="story-header">Hansel and Gretel</div>
+                <h2 class="slide-title">Crossing the River</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/bambi_3.png" alt=""></div>
+                        <div>
+                            <p>A kind white duck helped them cross a wide river. They were finally back in the parts of
+                                the forest they recognized by the tall old trees.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
+            </div>
+            <div class="slide-container" data-story="Hansel and Gretel">
+                <div class="story-header">Hansel and Gretel</div>
+                <h2 class="slide-title">The Way Back</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>In the distance, they saw their father's little cottage. They shouted and ran, so happy
+                                to be home after their long and scary adventure.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/bambi_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
+            </div>
+            <div class="slide-container" data-story="Hansel and Gretel">
+                <div class="story-header">Hansel and Gretel</div>
+                <h2 class="slide-title">Home at Last</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/bambi_2.png" alt=""></div>
+                        <div>
+                            <p>Their father hugged them with tears of joy. With the gold they found, they never went
+                                hungry again and lived together in peace and happiness.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
+            </div>
+
+            <!-- 9. ALADDIN (8 slides) - Uses velveteen assets -->
+            <div class="slide-container" data-story="Aladdin">
+                <div class="story-header">Aladdin</div>
+                <h2 class="slide-title">The Street Boy</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Young Aladdin lived in a bustling desert city. He was poor but had a kind heart, always
+                                sharing his small bits of food with the street animals.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/velveteen_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
+            </div>
+            <div class="slide-container" data-story="Aladdin">
+                <div class="story-header">Aladdin</div>
+                <h2 class="slide-title">The Hidden Cave</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/velveteen_2.png" alt=""></div>
+                        <div>
+                            <p>An old man led Aladdin to a secret cave. "Bring me the old lamp from inside," he
+                                commanded. Aladdin entered a cave full of gold and jewels!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
+            </div>
+            <div class="slide-container" data-story="Aladdin">
+                <div class="story-header">Aladdin</div>
+                <h2 class="slide-title">The Magic Lamp</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Aladdin picked up the dusty lamp. When he rubbed it to clean it off, a giant blue Genie
+                                appeared with a loud <em>POOF!</em> of smoke.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/velveteen_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
+            </div>
+            <div class="slide-container" data-story="Aladdin">
+                <div class="story-header">Aladdin</div>
+                <h2 class="slide-title">Three Wishes</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/velveteen_1.png" alt=""></div>
+                        <div>
+                            <p>"I am the Genie of the Lamp," he boomed. "You have three wishes!" Aladdin wished to be a
+                                Prince to impress the beautiful Princess Jasmine.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
+            </div>
+            <div class="slide-container" data-story="Aladdin">
+                <div class="story-header">Aladdin</div>
+                <h2 class="slide-title">The Flying Carpet</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>On a magical flying carpet, Aladdin and Jasmine soared over the city walls. They saw the
+                                whole world from high above the palm trees and rivers.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/velveteen_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
+            </div>
+            <div class="slide-container" data-story="Aladdin">
+                <div class="story-header">Aladdin</div>
+                <h2 class="slide-title">The Evil Sorcerer</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/velveteen_3.png" alt=""></div>
+                        <div>
+                            <p>The old man was actually a mean sorcerer! He stole the lamp and tried to take over the
+                                palace. But Aladdin was cleverer than any dark magic.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
+            </div>
+            <div class="slide-container" data-story="Aladdin">
+                <div class="story-header">Aladdin</div>
+                <h2 class="slide-title">A Brave Rescue</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Aladdin tricked the sorcerer and got the lamp back. He used his last wish to set the
+                                Genie free, showing that friendship is more valuable than gold.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/velveteen_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
+            </div>
+            <div class="slide-container" data-story="Aladdin">
+                <div class="story-header">Aladdin</div>
+                <h2 class="slide-title">A Kingdom of Joy</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/velveteen_2.png" alt=""></div>
+                        <div>
+                            <p>Aladdin and Jasmine were married and ruled the city with kindness. The Genie remained
+                                their best friend, and they all lived in a world of wonders.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
+            </div>
+
+            <!-- 10. PETER PAN (8 slides) -->
+            <div class="slide-container" data-story="Peter Pan">
+                <div class="story-header">Peter Pan</div>
+                <h2 class="slide-title">The Window Visitor</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Wendy and her brothers were sleeping when Peter Pan and Tinker Bell flew into their room.
+                                "I'll teach you to fly!" Peter laughed with a sparkle.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/peter_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 1</div>
+            </div>
+            <div class="slide-container" data-story="Peter Pan">
+                <div class="story-header">Peter Pan</div>
+                <h2 class="slide-title">Soaring over London</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/peter_2.png" alt=""></div>
+                        <div>
+                            <p>With a bit of fairy dust, they soared out the window! "Second star to the right and
+                                straight on till morning!" they cheered over the sleeping city.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 2</div>
+            </div>
+            <div class="slide-container" data-story="Peter Pan">
+                <div class="story-header">Peter Pan</div>
+                <h2 class="slide-title">Welcome to Neverland</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Neverland was full of adventure! They met the Lost Boys in their secret hideout under a
+                                massive hollow tree in the middle of the island forest.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/peter_3.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 3</div>
+            </div>
+            <div class="slide-container" data-story="Peter Pan">
+                <div class="story-header">Peter Pan</div>
+                <h2 class="slide-title">Captain Hook's Plot</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/peter_1.png" alt=""></div>
+                        <div>
+                            <p>The evil Captain Hook was waiting on his pirate ship. He captured Wendy and the boys, but
+                                Peter Pan was already flying to the rescue!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 4</div>
+            </div>
+            <div class="slide-container" data-story="Peter Pan">
+                <div class="story-header">Peter Pan</div>
+                <h2 class="slide-title">The Pirate Battle</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Peter and Hook fought a great duel on the ship's deck. Peter was fast and brave, while
+                                Hook was clumsy and terrified of the ticking crocodile.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/peter_2.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 5</div>
+            </div>
+            <div class="slide-container" data-story="Peter Pan">
+                <div class="story-header">Peter Pan</div>
+                <h2 class="slide-title">Winning the Day</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/peter_3.png" alt=""></div>
+                        <div>
+                            <p>The pirates jumped into the sea, and Hook was chased away by the crocodile's
+                                <em>tick-tock</em> sounds. The ship now belonged to Peter and his crew!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 6</div>
+            </div>
+            <div class="slide-container" data-story="Peter Pan">
+                <div class="story-header">Peter Pan</div>
+                <h2 class="slide-title">I'll Never Grow Up</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <p>Wendy missed her mother and decided to go home. Peter promised to visit her every year,
+                                flying through the window with more magical stories.</p>
+                        </div>
+                        <div class="image-container"><img src="livro de historias/peter_1.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="page-number">Page 7</div>
+            </div>
+            <div class="slide-container" data-story="Peter Pan">
+                <div class="story-header">Peter Pan</div>
+                <h2 class="slide-title">Home to the Nursery</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div class="image-container"><img src="livro de historias/peter_2.png" alt=""></div>
+                        <div>
+                            <p>Wendy woke up in her nursery. "It was the best adventure!" she told her mother. In
+                                Neverland, Peter kept flying, a boy who will never grow up.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-number">Page 8</div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function toggleFS() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error entering full screen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
         }
-    }
-</script>
+
+        function filterStories(selectedStory) {
+            // Update Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText === selectedStory);
+            });
+
+            // Show/Hide Slides
+            document.querySelectorAll('.slide-container').forEach(slide => {
+                const storyName = slide.getAttribute('data-story');
+                slide.classList.toggle('active', storyName === selectedStory);
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize with the first story
+        document.addEventListener('DOMContentLoaded', () => {
+            filterStories('Arthur the Rabbit');
+        });
+    </script>
 
 </body>
+
 </html>
